@@ -28,3 +28,16 @@ stages:
     parameters:
       notify_user: $(notify-user)
       depends_on: 'Plan'
+  - template: ./.devops/apply.yaml
+    parameters:
+      depends_on: 'Review'
+      vm_image: $(vm_image)
+      tf_version: $(tf_version)
+      client_id: $(client-id)
+      client_secret: $(client-secret)
+      tenant_id: $(tenant-id)
+      subscription_id: $(subscription-id)
+      tf_state_rg: $(tf-state-rg)
+      tf_state_stor: $(tf-state-stor)
+      tf_state_container: $(tf-state-container)
+      tf_environment: 'prod'
