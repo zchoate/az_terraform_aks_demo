@@ -30,7 +30,7 @@ stages:
       depends_on: 'Plan'
   - template: ./.devops/apply.yaml
     parameters:
-      depends_on: 'Review'
+      depends_on: 'ReviewPlan'
       vm_image: $(vm_image)
       tf_version: $(tf_version)
       client_id: $(client-id)
