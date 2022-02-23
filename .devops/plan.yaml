@@ -1,0 +1,36 @@
+parameters:
+  tf_version: ""
+  tf_state_rg: ""
+  tf_state_stor: ""
+  tf_state_container: ""
+  tf_environment: ""
+  client_id: ""
+  client_secret: ""
+  tenant_id: ""
+  subscription_id: ""
+
+steps:
+- template: ./.devops/tf-install.yaml
+  parameters:
+    tf_version: ${{ parameters.tf_version }}
+- bash: |
+    terraform init \
+      -backend-config="resource_group_name=${TF_STATE_RESOURCE_GROUP}" \
+      -backend-config="storage_account_name=${TF_STATE_STORAGE_ACCT}" \
+      -backend-config="container_name=${TF_STATE_CONTAINER_NAME}" \
+      -backend-config="key=${TF_VAR_environment}"
+    terraform plan \
+      -var-file=vars/${TF_VAR_environment}.tfvars \
+      -out=tfplan \
+      -input=false
+  env:
+    TF_STATE_RESOURCE_GROUP:  ${{ parameters.tf_state_rg }}
+    TF_STATE_STORAGE_ACCT:    ${{ parameters.tf_state_stor }}
+    TF_STATE_CONTAINER_NAME:  ${{ parameters.tf_state_container }}
+    TF_VAR_environment:       ${{ parameters.tf_environment }}
+    TF_IN_AUTOMATION:         'true'
+    ARM_CLIENT_ID:            ${{ parameters.client_id }}
+    ARM_CLIENT_SECRET:        ${{ parameters.client_secret }}
+    ARM_TENANT_ID:            ${{ parameters.tenant_id }}
+    ARM_SUBSCRIPTION_ID:      ${{ parameters.subscription_id }}
+  displayName: Terraform Init & Plan

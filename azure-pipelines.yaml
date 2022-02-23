@@ -1,0 +1,25 @@
+trigger:
+- main
+
+variables:
+- name: vm_image
+  value: ubuntu-20.04
+- name: tf_version
+  value: 1.1.6
+- group: devopskv
+
+stages:
+- stage: prod
+  condition: eq(variables['build.SourceBranchName'], 'main')
+  jobs:
+  - template: ./.devops/plan.yaml
+    parameters:
+      tf_version: $(tf_version)
+      tf_state_rg: $(tf-state-rg)
+      tf_state_stor: $(tf-state-stor)
+      tf_state_container: $(tf-state-container)
+      tf_environment: 'prod'
+  - template: ./.devops/review.yaml
+    parameters:
+      notify_user: $(notify-user)
+      depends_on: 'ProdPlan'

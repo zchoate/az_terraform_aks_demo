@@ -1,0 +1,18 @@
+parameters:
+  notify_user: ""
+  depends_on: ""
+
+jobs:
+- job:
+    displayName: Review Terraform Plan
+    dependsOn: ${{ parameters.depends_on }}
+    pool: server
+    timeoutInMinutes: 31
+    steps:
+    - task: ManualValidation@0
+      timeoutInMinutes: 30
+      inputs:
+        notifyUsers: |
+          ${{ parameters.notify_user }}
+        instructions: 'Validate and resume'
+        onTimeout: 'reject'

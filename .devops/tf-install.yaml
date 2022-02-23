@@ -1,0 +1,10 @@
+parameters:
+  tf_version: ""
+
+steps:
+- bash: |
+    curl -s "https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip" -o tf.zip
+    unzip tf.zip
+    chmod +x terraform
+  env:
+    TF_VERSION: ${{ parameters.tf_version }}
