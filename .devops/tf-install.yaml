@@ -8,3 +8,4 @@ steps:
     chmod +x terraform
   env:
     TF_VERSION: ${{ parameters.tf_version }}
+  displayName: Install Terraform ${{ parameters.tf_version }}
