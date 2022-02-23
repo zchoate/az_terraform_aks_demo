@@ -16,7 +16,7 @@ jobs:
   pool: 
     vmImage: ${{ parameters.vm_image }}
   steps:
-  - template: ./.devops/tf-install.yaml
+  - template: ./tf-install.yaml
     parameters:
       tf_version: ${{ parameters.tf_version }}
   - bash: |
