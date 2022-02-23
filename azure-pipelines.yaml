@@ -14,7 +14,12 @@ stages:
   jobs:
   - template: ./.devops/plan.yaml
     parameters:
+      vm_image: $(vm_image)
       tf_version: $(tf_version)
+      client_id: $(client-id)
+      client_secret: $(client-secret)
+      tenant_id: $(tenant-id)
+      subscription_id: $(subscription-id)
       tf_state_rg: $(tf-state-rg)
       tf_state_stor: $(tf-state-stor)
       tf_state_container: $(tf-state-container)
@@ -22,4 +27,4 @@ stages:
   - template: ./.devops/review.yaml
     parameters:
       notify_user: $(notify-user)
-      depends_on: 'ProdPlan'
+      depends_on: 'Plan'
