@@ -24,7 +24,7 @@ resource "azurerm_kubernetes_cluster" "main" {
         type = "SystemAssigned"
     }
 
-    rolerole_based_access_control {
+    role_based_access_control {
         enabled = true
     }
 
